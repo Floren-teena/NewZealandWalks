@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewZWalks.API", "NewZWalks.API\NewZWalks.API.csproj", "{6ADC16C0-B120-4EF6-9010-44F2BD6EE2DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Folder", "Solution Folder", "{E9DFE29F-D234-44FE-AA9D-5553AE43ADB8}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6ADC16C0-B120-4EF6-9010-44F2BD6EE2DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ADC16C0-B120-4EF6-9010-44F2BD6EE2DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ADC16C0-B120-4EF6-9010-44F2BD6EE2DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ADC16C0-B120-4EF6-9010-44F2BD6EE2DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C4811468-AECC-4ADC-9410-FFD1C4C109A3}
+	EndGlobalSection
+EndGlobal

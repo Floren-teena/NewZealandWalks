@@ -18,6 +18,7 @@ namespace NewZWalks.API.Controllers
         }
 
         [HttpGet]
+        [Route("Get-all-regions")]
         public IActionResult GetAll()
         {
             var regionDomain = newZWalksDb.Regions.ToList();
@@ -36,7 +37,7 @@ namespace NewZWalks.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id:Guid}")]
+        [Route("Get-region-by-id/{id:Guid}")]
         public IActionResult GetById([FromRoute] Guid id)
         {
             var regionDomain = newZWalksDb.Regions.FirstOrDefault(i => i.Id == id);
@@ -75,6 +76,33 @@ namespace NewZWalks.API.Controllers
                 RegionImageUrl = regionDomain.RegionImageUrl
             };
             return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
+        }
+
+        [HttpPut]
+        [Route("Update-region/{id:Guid}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
+        {
+            var regionDomain = newZWalksDb.Regions.FirstOrDefault(r => r.Id == id);
+            if (regionDomain == null)
+            {
+                return NotFound();
+            }
+
+            regionDomain.Name = updateRegionRequestDto.Name;
+            regionDomain.Code = updateRegionRequestDto.Code;
+            regionDomain.RegionImageUrl = updateRegionRequestDto.RegionImageUrl;
+
+            newZWalksDb.SaveChanges();
+
+            var updatedRegionDto = new RegionDto
+            {
+                Id = regionDomain.Id,
+                Name = regionDomain.Name,
+                Code = regionDomain.Code,
+                RegionImageUrl = regionDomain.RegionImageUrl
+            };
+
+            return Ok(updatedRegionDto);
         }
     }
 }

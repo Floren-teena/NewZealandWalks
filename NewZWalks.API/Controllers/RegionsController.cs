@@ -20,11 +20,11 @@ namespace NewZWalks.API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var regions = newZWalksDb.Regions.ToList();
-            var regionDto = new List<RegionDTO>();
-            foreach (var region in regions) 
+            var regionDomain = newZWalksDb.Regions.ToList();
+            var regionDto = new List<RegionDto>();
+            foreach (var region in regionDomain) 
             {
-                regionDto.Add(new RegionDTO()
+                regionDto.Add(new RegionDto()
                 {
                     Id = region.Id,
                     Name = region.Name,
@@ -39,21 +39,42 @@ namespace NewZWalks.API.Controllers
         [Route("{id:Guid}")]
         public IActionResult GetById([FromRoute] Guid id)
         {
-            var regionById = newZWalksDb.Regions.FirstOrDefault(i => i.Id == id);
+            var regionDomain = newZWalksDb.Regions.FirstOrDefault(i => i.Id == id);
             //var reg = newZWalksDb.Regions.Find(id);
-            if (regionById == null)
+            if (regionDomain == null)
             {
                 return NotFound();
             }
-            var regionDto = new RegionDTO()
+            var regionDto = new RegionDto()
             {
-                Id = regionById.Id,
-                Name = regionById.Name,
-                Code = regionById.Code,
-                RegionImageUrl = regionById.RegionImageUrl
+                Id = regionDomain.Id,
+                Name = regionDomain.Name,
+                Code = regionDomain.Code,
+                RegionImageUrl = regionDomain.RegionImageUrl
             };
             return Ok(regionDto);
         }
 
+        [HttpPost]
+        [Route("Create-Region")]
+        public IActionResult Create([FromBody] AddRegionRequestDto addRegionRequestDto)
+        {
+            var regionDomain = new Region
+            {
+                Code = addRegionRequestDto.Code,
+                Name = addRegionRequestDto.Name,
+                RegionImageUrl = addRegionRequestDto.RegionImageUrl
+            };
+            newZWalksDb.Add(regionDomain);
+            newZWalksDb.SaveChanges();
+            var regionDto = new RegionDto
+            {
+                Id = regionDomain.Id,
+                Name = regionDomain.Name,
+                Code = regionDomain.Code,
+                RegionImageUrl = regionDomain.RegionImageUrl
+            };
+            return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
+        }
     }
 }

@@ -21,12 +21,18 @@ namespace NewZWalks.API.Controllers
         public IActionResult GetAll()
         {
             var regions = newZWalksDb.Regions.ToList();
-            var regionDto = new List<RegionDTO>()
+            var regionDto = new List<RegionDTO>();
+            foreach (var region in regions) 
             {
-
-            };
-
-            return Ok(regions);
+                regionDto.Add(new RegionDTO()
+                {
+                    Id = region.Id,
+                    Name = region.Name,
+                    Code = region.Code,
+                    RegionImageUrl = region.RegionImageUrl
+                });
+            }
+            return Ok(regionDto);
         }
 
         [HttpGet]
@@ -39,7 +45,14 @@ namespace NewZWalks.API.Controllers
             {
                 return NotFound();
             }
-            return Ok(regionById);
+            var regionDto = new RegionDTO()
+            {
+                Id = regionById.Id,
+                Name = regionById.Name,
+                Code = regionById.Code,
+                RegionImageUrl = regionById.RegionImageUrl
+            };
+            return Ok(regionDto);
         }
 
     }

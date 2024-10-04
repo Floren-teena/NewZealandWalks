@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using NewZWalks.API.Data;
 using NewZWalks.API.Models.Domain;
 using NewZWalks.API.Models.DTO;
+using NewZWalks.API.Repositories;
 
 namespace NewZWalks.API.Controllers
 {
@@ -12,17 +13,19 @@ namespace NewZWalks.API.Controllers
     public class RegionsController : ControllerBase
     {
         private readonly NewZWalksDbContext newZWalksDb;
+        private readonly IRegionRepository _regionRepository;
 
-        public RegionsController(NewZWalksDbContext newZWalksDb)
+        public RegionsController(NewZWalksDbContext newZWalksDb, IRegionRepository regionRepository)
         {
             this.newZWalksDb = newZWalksDb;
+            _regionRepository = regionRepository;
         }
 
         [HttpGet]
         [Route("Get-all-regions")]
         public async Task<IActionResult> GetAll()
         {
-            var regionDomain = await newZWalksDb.Regions.ToListAsync();
+            var regionDomain = await _regionRepository.GetAllRegionsAsync();
             var regionDto = new List<RegionDto>();
             foreach (var region in regionDomain) 
             {

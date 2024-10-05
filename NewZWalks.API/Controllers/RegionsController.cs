@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NewZWalks.API.Data;
@@ -12,13 +13,13 @@ namespace NewZWalks.API.Controllers
     [ApiController]
     public class RegionsController : ControllerBase
     {
-        private readonly NewZWalksDbContext newZWalksDb;
         private readonly IRegionRepository _regionRepository;
+        private readonly IMapper _mapper;
 
-        public RegionsController(NewZWalksDbContext newZWalksDb, IRegionRepository regionRepository)
+        public RegionsController(NewZWalksDbContext newZWalksDb, IRegionRepository regionRepository, IMapper mapper)
         {
-            this.newZWalksDb = newZWalksDb;
             _regionRepository = regionRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]

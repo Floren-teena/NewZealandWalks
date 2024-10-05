@@ -18,24 +18,44 @@ namespace NewZWalks.API.Repositories
             return await _dbContext.Regions.ToListAsync();
         }
 
-        public Task<Region> GetRegionByIdAsync(int id)
+        public async Task<Region?> GetRegionByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Regions.FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public Task<Region> CreateRegionAsync(Region region)
+        public async Task<Region> CreateRegionAsync(Region region)
         {
-            throw new NotImplementedException();
+            await _dbContext.Regions.AddAsync(region);
+            await _dbContext.SaveChangesAsync();
+            return region;
         }
 
-        public Task<Region> UpdateRegionAsync(Region region)
+        public async Task<Region?> UpdateRegionAsync(Guid id, Region region)
         {
-            throw new NotImplementedException();
+            var existingRegion = await _dbContext.Regions.FirstOrDefaultAsync(r => r.Id == id);
+            if (existingRegion == null)
+            {
+                return null;
+            }
+
+            existingRegion.Name = region.Name;
+            existingRegion.Code = region.Code;
+            existingRegion.RegionImageUrl = region.RegionImageUrl;
+
+            await _dbContext.SaveChangesAsync();
+            return existingRegion;
         }
 
-        public Task<Region> DeleteRegionAsync(int id)
+        public async Task<Region?> DeleteRegionAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var existingRegion = await _dbContext.Regions.FirstOrDefaultAsync(r => r.Id == id);
+            if (existingRegion == null)
+            {
+                return null;
+            }
+            _dbContext.Remove(existingRegion);
+            await _dbContext.SaveChangesAsync();
+            return existingRegion;
         }
     }
 }

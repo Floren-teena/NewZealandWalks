@@ -44,7 +44,7 @@ namespace NewZWalks.API.Controllers
         [Route("Get-region-by-id/{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var regionDomain = await newZWalksDb.Regions.FirstOrDefaultAsync(i => i.Id == id);
+            var regionDomain = await _regionRepository.GetRegionByIdAsync(id);
             //var reg = newZWalksDb.Regions.Find(id);
             if (regionDomain == null)
             {
@@ -70,8 +70,9 @@ namespace NewZWalks.API.Controllers
                 Name = addRegionRequestDto.Name,
                 RegionImageUrl = addRegionRequestDto.RegionImageUrl
             };
-            await newZWalksDb.AddAsync(regionDomain);
-            await newZWalksDb.SaveChangesAsync();
+
+            await _regionRepository.CreateRegionAsync(regionDomain);
+
             var regionDto = new RegionDto
             {
                 Id = regionDomain.Id,
@@ -86,17 +87,18 @@ namespace NewZWalks.API.Controllers
         [Route("Update-region/{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
         {
-            var regionDomain = await newZWalksDb.Regions.FirstOrDefaultAsync(r => r.Id == id);
+            var regionDomain = new Region
+            {
+                Name = updateRegionRequestDto.Name,
+                Code = updateRegionRequestDto.Code,
+                RegionImageUrl = updateRegionRequestDto.RegionImageUrl
+            };
+
+            regionDomain = await _regionRepository.UpdateRegionAsync(id, regionDomain);
             if (regionDomain == null)
             {
                 return NotFound();
             }
-
-            regionDomain.Name = updateRegionRequestDto.Name;
-            regionDomain.Code = updateRegionRequestDto.Code;
-            regionDomain.RegionImageUrl = updateRegionRequestDto.RegionImageUrl;
-
-            await newZWalksDb.SaveChangesAsync();
 
             var updatedRegionDto = new RegionDto
             {
@@ -113,14 +115,11 @@ namespace NewZWalks.API.Controllers
         [Route("Delete-region/{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var regionDomain = await newZWalksDb.Regions.FirstOrDefaultAsync(r => r.Id == id);
+            var regionDomain = await _regionRepository.DeleteRegionAsync(id);
             if (regionDomain == null) 
             { 
                 return NotFound(); 
             }
-
-            newZWalksDb.Remove(regionDomain);
-            await newZWalksDb.SaveChangesAsync();
 
             var regionDto = new RegionDto
             {

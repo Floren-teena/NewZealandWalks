@@ -5,9 +5,9 @@ namespace NewZWalks.API.Repositories
     public interface IRegionRepository
     {
         Task<List<Region>> GetAllRegionsAsync();
-        Task<Region> GetRegionByIdAsync(int id);
+        Task<Region?> GetRegionByIdAsync(Guid id);
         Task<Region> CreateRegionAsync(Region region);
-        Task<Region> UpdateRegionAsync(Region region);
-        Task<Region> DeleteRegionAsync(int id);
+        Task<Region?> UpdateRegionAsync(Guid id, Region region);
+        Task<Region?> DeleteRegionAsync(Guid id);
     }
 }

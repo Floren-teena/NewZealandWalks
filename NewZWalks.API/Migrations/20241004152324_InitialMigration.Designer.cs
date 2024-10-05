@@ -12,8 +12,8 @@ using NewZWalks.API.Data;
 namespace NewZWalks.API.Migrations
 {
     [DbContext(typeof(NewZWalksDbContext))]
-    [Migration("20241003173341_initialmigrations")]
-    partial class initialmigrations
+    [Migration("20241004152324_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

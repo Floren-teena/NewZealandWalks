@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NewZWalks.API.Data;
+using NewZWalks.API.Mappings;
 using NewZWalks.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,8 @@ builder.Services.AddDbContext<NewZWalksDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NewZWalksConnectionString")));
 
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 var app = builder.Build();
 

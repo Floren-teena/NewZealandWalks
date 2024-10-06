@@ -30,5 +30,13 @@ namespace NewZWalks.API.Controllers
 
             return Ok(_mapper.Map<WalkDto>(walkDomain));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+           var walkDomain = await _walkRepository.GetAllWalkAsync();
+
+            return Ok(_mapper.Map<List<WalkDto>>(walkDomain));
+        }
     }
 }

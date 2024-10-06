@@ -1,0 +1,9 @@
+﻿using NewZWalks.API.Models.Domain;
+
+namespace NewZWalks.API.Repositories
+{
+    public interface IWalkRepository
+    {
+        Task<Walk> CreateWalkAsync(Walk walk);
+    }
+}

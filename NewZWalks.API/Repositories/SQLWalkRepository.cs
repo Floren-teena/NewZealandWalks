@@ -22,7 +22,7 @@ namespace NewZWalks.API.Repositories
 
         public async Task<List<Walk>> GetAllWalkAsync()
         {
-            return await _dbContext.Walks.ToListAsync();
+            return await _dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
         }
 
     }

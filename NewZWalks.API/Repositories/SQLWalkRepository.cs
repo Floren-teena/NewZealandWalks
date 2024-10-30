@@ -25,5 +25,14 @@ namespace NewZWalks.API.Repositories
             return await _dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
         }
 
+        public async Task<Walk?> GetWalkByidAsync(Guid id)
+        {
+            var existingWalk = await _dbContext.Walks.Include("Difficulty").Include("Region").FirstOrDefaultAsync(w => w.Id == id);
+            if (existingWalk == null)
+            {
+                return null;
+            }
+            return existingWalk;
+        }
     }
 }

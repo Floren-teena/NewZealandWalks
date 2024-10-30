@@ -34,5 +34,24 @@ namespace NewZWalks.API.Repositories
             }
             return existingWalk;
         }
+
+        public async Task<Walk?> UpdateWalkAsync(Guid id, Walk walk)
+        {
+            var existingWalk = await _dbContext.Walks.FirstOrDefaultAsync(w => w.Id == id);
+            if (existingWalk == null)
+            {
+                return null;
+            }
+
+            existingWalk.Name = walk.Name;
+            existingWalk.Description = walk.Description;
+            existingWalk.LengthInKm = walk.LengthInKm;
+            existingWalk.WalkImageUrl = walk.WalkImageUrl;
+            existingWalk.DifficultyId = walk.DifficultyId;
+            existingWalk.RegionId = walk.RegionId;
+
+            await _dbContext.SaveChangesAsync();
+            return existingWalk;
+        }
     }
 }
